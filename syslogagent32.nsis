@@ -10,10 +10,12 @@
 !define ARCHITECTURE "32bit"
 !define NAME "${PROGRAM} v${VERSION} ${ARCHITECTURE}"
 
+
 ;--------------------------------
 ;Include Modern UI
 
   !include "MUI2.nsh"
+  !include "nsDialogs.nsh"
 
 ;--------------------------------
 ;General
@@ -86,11 +88,11 @@ Section "Uninstall"
 
   ;ADD YOUR OWN FILES HERE...
 
-  File "$INSTDIR\SyslogAgent.exe"
-  File "$INSTDIR\SyslogAgentConfig.exe"
-  File "$INSTDIR\license.txt"
-  File "$INSTDIR\gnu license.txt"
-  File "$INSTDIR\Datagram SyslogAgent manual.pdf"
+  Delete "$INSTDIR\SyslogAgent.exe"
+  Delete "$INSTDIR\SyslogAgentConfig.exe"
+  Delete "$INSTDIR\license.txt"
+  Delete "$INSTDIR\gnu license.txt"
+  Delete "$INSTDIR\Datagram SyslogAgent manual.pdf"
   
   Delete "$INSTDIR\Uninstall.exe"
 
@@ -99,3 +101,63 @@ Section "Uninstall"
   DeleteRegKey /ifempty HKCU "Software\${NAME}"
 
 SectionEnd
+
+Var dialog
+Var hwnd
+Var null
+
+Var hwnd_listbox
+
+/* A variable to hold the POD the user selects */
+var POD
+
+Page Custom customPage
+
+Function .onInit
+    InitPluginsDir
+    File /oname=$PLUGINSDIR\pods.txt "pods.txt"
+FunctionEnd
+
+Function customPage
+    nsDialogs::Create 1018
+    Pop $dialog
+
+    /* Extract a list of currencies */
+    SetOutPath "$PluginsDir"
+        File "pods.txt"
+
+    /* Create a list box */
+    ${NSD_CreateListBox} 0 0 50% 100% ""
+        Pop $hwnd_listbox
+        
+        /* Populate it with our list of currencies */
+        FileOpen $0 "$PluginsDir\pods.txt" "r"
+        FileRead $0 $1
+        ClearErrors
+        ${DoUntil} ${Errors}
+            ${NSD_LB_AddString} $hwnd_listbox $1
+            FileRead $0 $1
+        ${Loop}
+        FileClose $0
+        
+        /* Add a callback for when the user selects a POD */
+        ${NSD_OnChange} $hwnd_listbox customPage.listbox.onchange
+
+    /* Disabe the Next/Close button - the user -must- pick a currency */
+    /* (none are selected by default in this example) */
+    GetDlgItem $0 $HWNDPARENT 1
+    EnableWindow $0 0
+
+    nsDialogs::Show
+FunctionEnd
+
+Function customPage.listbox.onchange
+    Pop $hwnd
+    
+    /* Store the selected POD in the $pod variable */
+    ${NSD_LB_GetSelection} $hwnd_listbox $pod
+    
+    /* Enable the Next/Close button */
+    GetDlgItem $0 $HWNDPARENT 1
+    EnableWindow $0 1
+FunctionEnd
