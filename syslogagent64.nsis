@@ -7,7 +7,7 @@
 
 !define VERSION "3.6"
 !define PROGRAM "Syslog Agent"
-!define ARCHITECTURE "32bit"
+!define ARCHITECTURE "64bit"
 !define NAME "${PROGRAM} v${VERSION} ${ARCHITECTURE}"
 
 ;--------------------------------
@@ -96,10 +96,10 @@ Section "Syslog Agent" SecDummy
   SetOutPath "$INSTDIR"
   
   ;ADD YOUR OWN FILES HERE...
-  File "syslogagent32\SyslogAgent\SyslogAgent.exe"
-  File "syslogagent32\SyslogAgent\SyslogAgentConfig.exe"
-  File "syslogagent32\SyslogAgent\license.txt"
-  File "syslogagent32\SyslogAgent\gnu license.txt"
+  File "syslogagent64\SyslogAgent\SyslogAgent.exe"
+  File "syslogagent64\SyslogAgent\SyslogAgentConfig.exe"
+  File "syslogagent64\SyslogAgent\license.txt"
+  File "syslogagent64\SyslogAgent\gnu license.txt"
 
   ;Add shortcut
   createShortCut "$SMPROGRAMS\${PROGRAM}\SyslogAgentConfig.lnk" "$INSTDIR\SyslogAgentConfig.exe" "" ""
@@ -118,7 +118,7 @@ Section "Documentation" SecDoc
   SetOutPath "$INSTDIR"
   
   ;ADD YOUR OWN FILES HERE...
-  File "syslogagent32\SyslogAgent\Datagram SyslogAgent manual.pdf"
+  File "syslogagent64\SyslogAgent\Datagram SyslogAgent manual.pdf"
   createShortCut "$SMPROGRAMS\${PROGRAM}\Datagram SyslogAgent manual.lnk" "$INSTDIR\Datagram SyslogAgent manual.pdf" "" ""
   
 SectionEnd
