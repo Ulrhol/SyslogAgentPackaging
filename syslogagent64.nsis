@@ -60,7 +60,7 @@ FunctionEnd
   OutFile "${NAME}.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\${NAME}"
+  InstallDir "$PROGRAMFILES64\${NAME}"
 
 ;--------------------------------
 ;Interface Settings
