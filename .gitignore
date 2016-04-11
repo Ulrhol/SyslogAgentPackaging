@@ -1,0 +1,5 @@
+*.txt
+*.exe
+*.zip
+syslogagent32/
+syslogagent64/
