@@ -22,4 +22,5 @@ if [ -f syslogagent32/SyslogAgent/license.txt ]; then
   cp syslogagent32/SyslogAgent/license.txt .
 fi
 
+makensis syslogagent64.nsis
 makensis syslogagent32.nsis
