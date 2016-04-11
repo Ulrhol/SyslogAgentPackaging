@@ -1,0 +1,3 @@
+192.168.1.1 - Home Syslog Server
+10.1.1.1 - Office Syslog Server
+172.16.1.1 - Secret Syslog Server
